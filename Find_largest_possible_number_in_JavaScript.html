@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<body>
+The number as a string variable:
+<textarea id="test" style="width:100%;height:100%;"></textarea>
+<p></p>
+The number as a number variable, with scientific notation (default):
+<textarea id="test2" style="width:100%;height:100%;"></textarea>
+
+<script>
+String.prototype.replaceAt=function(index, replacement)
+{
+    return this.substr(0, index) + replacement+ this.substr(index + replacement.length);
+}
+//var hello="Hello World";
+//alert(hello.replaceAt(2, "!!")); //should display He!!o World
+// ^ From https://stackoverflow.com/questions/1431094/ (no, JavaScript strings are not immutable)
+
+var start =
+//                v---start.charAt(17)
+"179769313486231580000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+// end character: 308 (if the first character has an index of 0)
+;
+var fixNum = 0;
+var intin = false;
+var i = 0;
+var j = 17;
+while (j < 320)
+{
+    if (j < 309 || j > 309)
+    {
+        var a = 0;
+        while (i != "Infinity" && a < 10)
+        {
+            start = start.replaceAt(j, a.toString());
+            i = Number(start);
+            if (i == "Infinity") intin = true; else intin = false;
+            a++;
+        }
+        if (intin)
+        {
+            fixNum = Number(start.charAt(j)) - 1;
+            start = start.replaceAt(j, fixNum.toString());
+        }
+        i = Number(start);
+    }
+    else if (j == 309)
+    {
+        start += ".0000000000";
+    }
+    j++;
+}
+document.getElementById("test").innerHTML = start;
+document.getElementById("test2").innerHTML = Number(start);
+</script>
+</body>
+</html>
